@@ -1,0 +1,26 @@
+# etermin-watch configuration
+# Lines starting with # or ; are comments.
+
+[global]
+# 0 = check once and exit; otherwise re-check every N minutes
+# (please keep this at 5+ minutes to be polite to the server)
+interval_minutes = 10
+# optional: shell command run for every NEW slot, text is in $ETERMIN_MSG
+# notify_cmd = notify-send "Appointment" "$ETERMIN_MSG"
+
+# One section per doctor/service. Name after "target:" is just a label.
+[target:Dr. Mustermann - Checkup]
+# Endpoint copied from your browser's DevTools (Network tab) while you click
+# through the booking page. Placeholders: {date} {from} {to} {days}
+url = https://www.etermin.net/api/timeslots?date={date}&serviceid=12345&rangesearch=1&calid=678&webid=YOUR_WEBNAME
+# Any request headers the booking page sends (repeatable)
+# header = publickey: YOUR_PUBLIC_KEY
+
+# --- relevant time window, measured from "now" ---
+min_hours_ahead = 24     # ignore slots sooner than 24 h from now
+max_days_ahead  = 14     # ignore slots later than 14 days from now
+
+# --- JSON mapping ---
+start_field = start      # field with the slot's start time
+# array_key = timeslots  # only if the array is nested inside an object
+# time_format = %Y-%m-%d %H:%M:%S   # only if auto-detection fails
